@@ -1,18 +1,27 @@
 import "./Game.css"
+import "./Result"
+import Result from "./Result";
 
 function Game(props){
-    return(
-            <div className="App">
-                <div className="progress">
-                    <div className="progress__inner"></div>
+    const percentage = Math.round(props.step/props.questions_count*100)
+    if (props.question){
+        return(
+                <div className="App">
+                    <div className="progress">
+                        <div className="progress__inner" style={{width: `${percentage}%`}}></div>
+                    </div>
+                    <h1>{props.question.title}</h1>
+                    <ul>
+                        {props.question.variants.map((answer, index) => (
+                            <li onClick={() => props.onClickVariant(index)} key={index}>{answer}</li>
+                        ))}
+                    </ul>
                 </div>
-                <h2>{props.question}</h2>
-                <ul>
-                    <li>Это функция для хранения данных компонента</li>
-                    <li>Это глобальный стейт</li>
-                    <li>Это когда включешь компьютер</li>
-                </ul>
-            </div>
-        );
+            );
+    }else{
+        return(
+            <Result correct={props.correct} questions_count={props.questions_count}></Result>
+        )
+    }
 }
 export default Game;
